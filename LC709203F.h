@@ -43,12 +43,12 @@ bit kaydirmalarini kontrol et
     #define cmd_numberOfTheParameter  0x1A
     
     #define cmd_CRCpolynomial         0x07
-    #define DeviceID                  0x16
+    #define LC709203_DeviceID                  0x16
     
      /* 
        @Brief         CRC Checker
        @Description   Needed byte for Cyclic Redundancy Check.
-                      DeviceID, Control Reg, LSB Byte, MSB Byte, CRC Byte 
+                      LC709203_DeviceID, Control Reg, LSB Byte, MSB Byte, CRC Byte 
        @Parameter     uint8_t *rec_values -> array name for check
                       uint8_t len         -> lengt of array
        @Return value  uint8_t

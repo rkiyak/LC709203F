@@ -14,7 +14,7 @@
 /* 
    @Brief         CRC Checker
    @Description   Needed byte for Cyclic Redundancy Check.
-                  DeviceID, Control Reg, LSB Byte, MSB Byte, CRC Byte 
+                  LC709203_DeviceID, Control Reg, LSB Byte, MSB Byte, CRC Byte 
    @Parameter     uint8_t *rec_values -> array name for check
                   uint8_t len         -> lengt of array
    @Return value  uint8_t
@@ -57,7 +57,7 @@ void LC709203_RSOC_before(I2C_HandleTypeDef i2c)
   buf[1]=0x55                                                           ;    
   buf[2]=0xAA                                                           ;    
   buf[3]=check_crc(buf,3)                                               ;          
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;    
   HAL_Delay(10)                                                         ;     //Need 10ms for calibrating
 }
 
@@ -76,9 +76,9 @@ uint16_t LC709203_thermistorB(I2C_HandleTypeDef i2c)
   buf[1]=0x34                                                           ;    
   buf[2]=0x0D                                                           ;    
   buf[3]=check_crc(buf,3)                                               ;                                                                                  
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;    
   HAL_Delay(1)                                                          ;    
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -96,7 +96,7 @@ void LC709203_RSOC_initial(I2C_HandleTypeDef i2c)
   buf[1]=0x55                                                           ;    
   buf[2]=0xAA                                                           ;    
   buf[3]=check_crc(buf,3)                                               ;                                     
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;    
   HAL_Delay(10)                                                         ;     //Need 10ms for calibrating
 }
 
@@ -115,9 +115,9 @@ float LC709203_cellTemperature(I2C_HandleTypeDef i2c)
   buf[1]=0xA6                                                           ;    
   buf[2]=0x0B                                                           ;    
   buf[3]=check_crc(buf,3)                                               ;                                           
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;    
   HAL_Delay(1)                                                          ;        
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   int TempSum =((buf[1]<<8)|(buf[0]))                                   ;    
   float temp=(TempSum - 2371.5)                                         ;    
   return temp                                                           ;    
@@ -134,9 +134,9 @@ uint16_t LC709203_cellVoltage(I2C_HandleTypeDef i2c)
 {
   static uint8_t buf[3]                                                 ;    
   buf[0]=cmd_cellVoltage                                                ;    
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,0,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,0,20)                    ;    
   HAL_Delay(5)                                                          ;    
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -156,9 +156,9 @@ uint16_t LC709203_currentDirection(I2C_HandleTypeDef i2c)
   buf[1]=0x00                                                           ;    
   buf[2]=0x00                                                           ;    
   buf[3]=check_crc(buf,3)                                               ;                                           
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;    
   HAL_Delay(1)                                                          ;          
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -178,9 +178,9 @@ uint16_t LC709203_adjusmentPackApplicaiton(I2C_HandleTypeDef i2c)
   buf[1]=0x00                                                           ;    
   buf[2]=0x00                                                           ;    
   buf[3]=check_crc(buf,3)                                               ;                                 
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;    
   HAL_Delay(1)                                                          ;        
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -200,9 +200,9 @@ uint16_t LC709203_adjusmentPackThermistor(I2C_HandleTypeDef i2c)
   buf[1]=0x1E                                                           ;    
   buf[2]=0x00                                                           ;    
   buf[3]=check_crc(buf,3)                                               ;                                           
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;    
   HAL_Delay(1)                                                          ;         
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -217,9 +217,9 @@ uint16_t LC709203_RSOC(I2C_HandleTypeDef i2c)
 {
   static uint8_t buf[3]                                                 ;    
   buf[0]=cmd_RSOC                                                       ;    
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,0,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,0,20)                    ;    
   HAL_Delay(5)                                                          ;    
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -235,9 +235,9 @@ uint16_t LC709203_indicatorToEmpty(I2C_HandleTypeDef i2c)
 {
   static uint8_t buf[3]                                                 ;    
   buf[0]=cmd_ITE                                                        ;    
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,0,20)                    ;    
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,0,20)                    ;    
   HAL_Delay(5)                                                          ;    
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -252,9 +252,9 @@ uint16_t LC709203_IC_Version(I2C_HandleTypeDef i2c)
 {
   static uint8_t buf[3]                                                 ;    
   buf[0]=cmd_ICversion                                                  ;    
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,0,20)                    ;                      
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,0,20)                    ;                      
   HAL_Delay(5)                                                          ;    
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;     
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;     
   return ((buf[1]<<8)|(buf[0]))                                         ;    
 }
 
@@ -273,9 +273,9 @@ uint16_t LC709203_changeOfTheParameter(I2C_HandleTypeDef i2c)
   buf[1]=0x00                                                           ;                                                             
   buf[2]=0x00                                                           ;                                                             
   buf[3]=check_crc(buf,3)                                               ;                                                                                
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;           
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;           
   HAL_Delay(1)                                                          ;               
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;            
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;            
   return ((buf[1]<<8)|(buf[0]))                                         ;                      
 }
 
@@ -295,9 +295,9 @@ uint16_t LC709203_RSOC_alarmLow(I2C_HandleTypeDef i2c)
   buf[1]=0x08                                                           ;                                                             
   buf[2]=0x00                                                           ;                                                             
   buf[3]=check_crc(buf,3)                                               ;                                                                                    
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;           
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;           
   HAL_Delay(1)                                                          ;               
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;            
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;            
   return ((buf[1]<<8)|(buf[0]))                                         ;                      
 }
 
@@ -316,9 +316,9 @@ uint16_t LC709203_alarmLowCellVoltage(I2C_HandleTypeDef i2c)
   buf[1]=0x00                                                           ;                                                             
   buf[2]=0x00                                                           ;                                                             
   buf[3]=check_crc(buf,3)                                               ;                                                                                   
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;           
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;           
   HAL_Delay(1)                                                          ;              
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;            
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;            
   return ((buf[1]<<8)|(buf[0]))                                         ;                      
 }
 
@@ -337,9 +337,9 @@ uint16_t LC709203_IC_powerMode(I2C_HandleTypeDef i2c)
   buf[1]=0x00                                                           ;                                                             
   buf[2]=0x00                                                           ;                                                             
   buf[3]=check_crc(buf,3)                                               ;                                                                                     
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;           
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;           
   HAL_Delay(1)                                                          ;               
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;            
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;            
   return ((buf[1]<<8)|(buf[0]))                                         ;                      
 }
 
@@ -357,9 +357,9 @@ uint16_t LC709203_statusBit(I2C_HandleTypeDef i2c)
   buf[1]=0x00                                                           ;                                                             
   buf[2]=0x00                                                           ;                                                             
   buf[3]=check_crc(buf,3)                                               ;                                                                              
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,3,20)                    ;           
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,3,20)                    ;           
   HAL_Delay(1)                                                          ;               
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;            
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;            
   return ((buf[1]<<8)|(buf[0]))                                         ;                      
 }
 
@@ -375,8 +375,8 @@ uint16_t LC709203_numberOfTheParameter(I2C_HandleTypeDef i2c)
 {
   static uint8_t buf[3]                                                 ;                                                   
   buf[0]=cmd_numberOfTheParameter                                       ;                                         
-  HAL_I2C_Master_Transmit(&i2c,DeviceID<<1,buf,0,20)                    ;                      
+  HAL_I2C_Master_Transmit(&i2c,LC709203_DeviceID<<1,buf,0,20)                    ;                      
   HAL_Delay(1)                                                          ;                                                            
-  HAL_I2C_Master_Receive(&i2c,DeviceID<<1,buf,3,20)                     ;            
+  HAL_I2C_Master_Receive(&i2c,LC709203_DeviceID<<1,buf,3,20)                     ;            
   return ((buf[1]<<8)|(buf[0]))                                         ;                      
 }
